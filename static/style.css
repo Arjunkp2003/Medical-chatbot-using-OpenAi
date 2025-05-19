@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Chatbot</title>
+    
+    <!-- Bootstrap & FontAwesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: url("https://images.unsplash.com/photo-1581276879432-c39e0f1d220d") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .chat {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .card {
+            height: 500px;
+            border-radius: 20px !important;
+            background-color: rgba(0, 0, 0, 0.6) !important;
+        }
+
+        .card-header, .card-footer {
+            border-radius: 20px 20px 0 0 !important;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+        }
+
+        .msg_card_body {
+            overflow-y: auto;
+        }
+
+        .type_msg {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            height: 60px;
+        }
+
+        .type_msg:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .send_btn {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .user_img {
+            height: 60px;
+            width: 60px;
+            border: 2px solid white;
+        }
+
+        .user_img_msg {
+            height: 40px;
+            width: 40px;
+            border: 2px solid white;
+        }
+
+        .img_cont {
+            position: relative;
+        }
+
+        .online_icon {
+            position: absolute;
+            height: 15px;
+            width: 15px;
+            background-color: #4cd137;
+            border-radius: 50%;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
+        }
+
+        .user_info span {
+            font-size: 20px;
+            color: white;
+        }
+
+        .user_info p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .msg_cotainer {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            margin-left: 10px;
+            position: relative;
+        }
+
+        .msg_cotainer_send {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px;
+            border-radius: 20px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .msg_time, .msg_time_send {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            position: absolute;
+            bottom: -15px;
+        }
+
+        .msg_time {
+            left: 0;
+        }
+
+        .msg_time_send {
+            right: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-md-8 col-xl-6 chat">
+                <div class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight">
+                            <div class="img_cont">
+                                <img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img">
+                                <span class="online_icon"></span>
+                            </div>
+                            <div class="user_info ml-3">
+                                <span>Medical Chatbot</span>
+                                <p>Ask me anything!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="messageFormeight" class="card-body msg_card_body">
+                        <!-- Messages will be appended here -->
+                    </div>
+                    <div class="card-footer">
+                        <form id="messageArea" class="input-group">
+                            <input type="text" id="text" name="msg" placeholder="Type your message..." autocomplete="off" class="form-control type_msg" required>
+                            <div class="input-group-append">
+                                <button type="submit" id="send" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot interaction script -->
+    <script>
+        $(document).ready(function () {
+            $("#messageArea").on("submit", function (event) {
+                event.preventDefault();
+
+                const date = new Date();
+                const str_time = date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
+                const rawText = $("#text").val();
+
+                const userHtml = `
+                    <div class="d-flex justify-content-end mb-4">
+                        <div class="msg_cotainer_send">
+                            ${rawText}
+                            <span class="msg_time_send">${str_time}</span>
+                        </div>
+                        <d
